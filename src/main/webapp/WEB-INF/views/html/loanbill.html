@@ -1,0 +1,139 @@
+<!-- 指标库列表 -->
+
+<!-- 数据表 -->
+<table class="easyui-datagrid" title="借款单列表" fit="true" fitColumns="true"
+	url="data/griddata.json" method="get" toolbar="#toolbar_bill" 
+	striped="true" rownumbers="true" pagination="true" remoteSort="false" data-options="singleSelect:true" id="userlist">
+	<thead>
+		<tr>
+			<th field="phone" width="5" align="center" sortable="true">借款人</th>
+			<th field="createtime" width="10" align="center" sortable="true">申请时间</th>
+			<th field="phone" width="10" align="center" sortable="true">借款额度</th>
+			<th field="createtime" width="10" align="center" sortable="true">借款期限</th>
+			<th field="phone" width="10" align="center" sortable="true">初审状态</th>
+			<th field="phone" width="10" align="center" sortable="true">初审意见</th>
+			<th field="createtime" width="10" align="center" sortable="true">初审人</th>
+			<th field="phone" width="10" align="center" sortable="true">初审时间</th>
+			<th field="createtime" width="10" align="center" sortable="true">再审人</th>
+			<th field="phone" width="5%" align="center" sortable="true">再审意见</th>
+			<th field="phone" width="5%" align="center" sortable="true">再审时间</th>
+			<th field="createtime" width="5%" align="center" sortable="true">单据状态</th>
+			<th field="createtime" width="5&" align="center" sortable="true">是否还款</th>
+		</tr>
+	</thead>
+</table>
+<!-- /数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="toolbar_bill">
+	<div class="search-div">
+		<label>手机号码：</label>
+		<input type="text" class="easyui-textbox"  />
+		<a href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+    </div>
+	<div class="ctrl-div">
+   		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="preaudit">初审</a>
+    	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="reaudit">再审</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="loan">放款</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="payback">还款</a>
+	</div>
+</div>
+<!-- /数据表工具栏 -->
+
+<!-- 弹出框 初审 -->
+<div class="easyui-dialog" title="初审" iconCls="icon-save" modal="true"
+	closed="true" buttons="#dlg-preaudit" id="dlg_pre">
+	<form id="fm" method="post">
+		<div class="fitem">
+			<label>审核状态：</label>
+				<select id="cc" class="easyui-combobox" defaulvalue="通过">   
+				   <option>通过</option>   
+				   <option>不通过</option>   
+				</select> 
+		</div>
+		<div class="fitem">
+			<label>审核意见：</label>
+			<input class="easyui-areatbox" data-options="multiline:true" value="通过" />
+		</div>
+	</form>
+</div>
+<!-- /弹出框 -->
+
+<!-- 弹出框按钮组-->
+<div id="dlg-preaudit">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" id="p_sbtn">保存</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" id="p_cbtn">取消</a>
+</div>
+<!-- /弹出框 按钮组-->
+
+<!-- 弹出框 初审 -->
+<div class="easyui-dialog" title="再审" iconCls="icon-save" modal="true"
+	closed="true" buttons="#dlg-reaudit" id="dlg_re">
+	<form id="fm" method="post">
+		<div class="fitem">
+			<label>审核状态：</label>
+			<select id="cc" class="easyui-combobox" defaulvalue="通过">   
+			   <option>通过</option>   
+			   <option>不通过</option>   
+			</select> 
+		</div>
+		<div class="fitem">
+			<label>额度：</label>
+			<input class="easyui-textbox" value="" />
+		</div>
+		<div class="fitem">
+			<label>借款期限：</label>
+			<select id="cc" class="easyui-combobox" defaulvalue="七天">   
+			   <option>七天</option>   
+			   <option>十天</option>  
+			   <option>半个月</option>   
+			   <option>一个月</option> 			   
+			</select> 
+
+		</div>
+		<div class="fitem">
+			<label>审核意见：</label>
+			<input class="easyui-areatbox" data-options="multiline:true" value="通过" />
+		</div>
+	</form>
+</div>
+<!-- /弹出框 -->
+
+<!-- 弹出框按钮组-->
+<div id="dlg-reaudit">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" id="r_sbtn">保存</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" id="r_cbtn">取消</a>
+</div>
+<!-- /弹出框 按钮组-->
+
+<script type="text/javascript">
+	$(function() {
+		//打开弹出框
+		$("#preaudit").click(function(e) {
+			var row = $('#userlist').datagrid('getSelected');
+			if (row){
+				alert('指标名称:'+row.kpiName);
+			}
+			e.preventDefault();
+			$("#dlg_pre").dialog("open");
+		});
+		//关闭弹出框
+		$("#p_sbtn, #p_cbtn").click(function(e) {
+			e.preventDefault();
+			$("#dlg_pre").dialog("close");
+		});
+		$("#reaudit").click(function(e) {
+			var row = $('#userlist').datagrid('getSelected');
+			if (row){
+				alert('指标名称:'+row.kpiName);
+			}
+			e.preventDefault();
+			$("#dlg_re").dialog("open");
+		});
+		//关闭弹出框
+		$("#r_sbtn, #r_cbtn").click(function(e) {
+			e.preventDefault();
+			$("#dlg_re").dialog("close");
+		});
+	});
+</script>
