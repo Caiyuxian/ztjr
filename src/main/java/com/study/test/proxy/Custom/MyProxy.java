@@ -1,5 +1,6 @@
 package com.study.test.proxy.Custom;
 
+import com.study.test.contructor.ContructCreator;
 import com.study.test.proxy.Person;
 
 import javax.tools.JavaCompiler;
@@ -7,6 +8,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
@@ -40,7 +42,9 @@ public class MyProxy {
 
             //3、动态将class文件加载到JVM中
             //4、返回代理对象实例
-            return loader.findClass("$Proxy0").newInstance();
+            Class proxyClass =  loader.findClass("$Proxy0");
+            Constructor c = proxyClass.getConstructor(MyInvocationHandler.class);
+            return c.newInstance(h);
         }catch (Exception e){
             e.printStackTrace();
         }
